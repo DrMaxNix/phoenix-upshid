@@ -9,7 +9,7 @@ I tried multiple drivers for it, but they all had their problems:
 
 So I tried writing dirty fixes for both of those drivers, which would reset the USB connection when detecting such problem. But it wasn't as stable as I had hoped.
 
-At the end I reverse-engineered the USB-HID protocol of the UPS and wrote my own driver for it in c, which has the reset-capability built-in. I'm not at all into c driver development, so use this at your own risk, as the license already states: "WITHOUT WARRANTY OF ANY KIND"!
+At the end I [reverse-engineered](https://github.com/DrMaxNix/phoenix-upshid/blob/main/nut-reverseengineering.md) the USB-HID protocol of the UPS and wrote my own driver for it in c, which has the reset-capability built-in. I'm not at all into c driver development, so use this at your own risk, as the license already states: "WITHOUT WARRANTY OF ANY KIND"!
 
 
 

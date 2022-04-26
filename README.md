@@ -27,6 +27,14 @@ OPTIONALLY copy to `$PATH`:
 # cp phoenix-upshid /usr/local/bin/
 ```
 
+Find device id:
+```console
+$ lsusb
+...
+Bus 001 Device 005: ID 06da:ffff Phoenixtec Power Co., Ltd 
+...
+```
+
 Print device data of device 06da:ffff (and try usb reset):
 ```console
 # ./phoenix-upshid -a 06da:ffff

@@ -1,4 +1,8 @@
 # phoenix-upshid
+[![GitHub release](https://img.shields.io/badge/release-v1.0.1-orange)](https://github.com/DrMaxNix/phoenix-upshid/releases/tag/1.0.1)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/DrMaxNix/phoenix-upshid/blob/main/LICENSE)
+[![Maintaner](https://img.shields.io/badge/maintainer-DrMaxNix-blue)](https://www.drmaxnix.de)
+
 Simple driver for reading data from Phoenixtec ("Amazon Basics") UPSes written in c
 
 ## Why?

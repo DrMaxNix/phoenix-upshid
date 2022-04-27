@@ -30,6 +30,7 @@
 #include <linux/usbdevice_fs.h>
 #include <linux/hidraw.h>
 #include <sys/ioctl.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <string.h>
@@ -38,6 +39,11 @@
 #include <ctype.h>
 #include <fcntl.h>
 #include <stdio.h>
+
+
+// MACROS //
+// convert boolean to string (true/false)
+#define bool_string(value) (value ? "true" : "false")
 
 
 // FUNCTIONS WE WILL DEFINE LATER //
@@ -52,7 +58,7 @@ void print_version();
 
 
 // PUBLIC FLAGS //
-int auto_usbreset = 0;
+int auto_usbreset = false;
 
 uint16_t vendor_id;
 uint16_t product_id;
@@ -68,7 +74,7 @@ int main(int argc, char **argv){
 		switch(one_flag){
 			// automatically try usb reset
 			case 'a':
-				auto_usbreset = 1;
+				auto_usbreset = true;
 				break;
 				
 			// version
@@ -85,7 +91,8 @@ int main(int argc, char **argv){
 			case '?':
 				exit(1);
 				break;
-				
+			
+			// should never reach this..
 			default:
 				abort();
 				break;
@@ -158,13 +165,8 @@ int find_device_hid(uint16_t search_vendor_id, uint16_t search_product_id){
 			continue;
 		}
 		
-		// get filename prefix
-		char prefix[7];
-		memcpy(prefix, &dirent->d_name[0], 6);
-		prefix[6] = '\0';
-		
 		// check filename prefix
-		if(strcmp(prefix, "hidraw") != 0){
+		if(strncmp(dirent->d_name, "hidraw", 6) != 0){
 			// prefix not matching
 			continue;
 		}
@@ -172,9 +174,8 @@ int find_device_hid(uint16_t search_vendor_id, uint16_t search_product_id){
 		
 		// CHECK IDS //
 		// get full path by appending '/dev/'
-		char path[64];
-		strcpy(path, "/dev/");
-		strcat(path, dirent->d_name);
+		char path[PATH_MAX];
+		snprintf(path, sizeof(path) - 1, "/dev/%s", dirent->d_name);
 		
 		// open hid device (readonly, non-blocking)
 		int hid = open(path, O_RDONLY|O_NONBLOCK);
@@ -185,13 +186,13 @@ int find_device_hid(uint16_t search_vendor_id, uint16_t search_product_id){
 		
 		// prepare report descriptor buffers
 		struct hidraw_report_descriptor rpt_desc;
-		memset(&rpt_desc, 0x0, sizeof(rpt_desc));
+		memset(&rpt_desc, 0x00, sizeof(rpt_desc));
 		
 		struct hidraw_devinfo info;
-		memset(&info, 0x0, sizeof(info));
+		memset(&info, 0x00, sizeof(info));
 		
 		char buf[256];
-		memset(buf, 0x0, sizeof(buf));
+		memset(buf, 0x00, sizeof(buf));
 		
 		// get size of report descriptor
 		int res;
@@ -286,7 +287,7 @@ int find_device_bus(uint16_t search_vendor_id, uint16_t search_product_id){
 		}
 		
 		// read first 4 chars from file
-		memset(id_buf, 0x0, sizeof(id_buf));
+		memset(id_buf, 0x00, sizeof(id_buf));
 		read(file, id_buf, 4);
 		close(file);
 		
@@ -306,7 +307,7 @@ int find_device_bus(uint16_t search_vendor_id, uint16_t search_product_id){
 		}
 		
 		// read first 4 chars from file
-		memset(id_buf, 0x0, sizeof(id_buf));
+		memset(id_buf, 0x00, sizeof(id_buf));
 		read(file, id_buf, 4);
 		close(file);
 		
@@ -333,7 +334,7 @@ int find_device_bus(uint16_t search_vendor_id, uint16_t search_product_id){
 		}
 		
 		// read first 128 chars from file
-		memset(id_buf, 0x0, sizeof(id_buf));
+		memset(id_buf, 0x00, sizeof(id_buf));
 		read(file, id_buf, 128);
 		close(file);
 		
@@ -353,7 +354,7 @@ int find_device_bus(uint16_t search_vendor_id, uint16_t search_product_id){
 		}
 		
 		// read first 128 chars from file
-		memset(id_buf, 0x0, sizeof(id_buf));
+		memset(id_buf, 0x00, sizeof(id_buf));
 		read(file, id_buf, 128);
 		close(file);
 		
@@ -467,21 +468,7 @@ void output_data(){
 	
 	
 	// OUTPUT AS JSON //
-	// get booleans as string
-	char bool_string_line[6];
-	strcpy(bool_string_line, (line ? "true" : "false"));
-	
-	char bool_string_battery_low[6];
-	strcpy(bool_string_battery_low, (battery_low ? "true" : "false"));
-	
-	char bool_string_charging[6];
-	strcpy(bool_string_charging, (charging ? "true" : "false"));
-	
-	char bool_string_discharging[6];
-	strcpy(bool_string_discharging, (discharging ? "true" : "false"));
-	
-	// build and output json string
-	printf("{\"charge\":%d,\"runtime\":%d,\"line\":%s,\"battery_low\":%s,\"charging\":%s,\"discharging\":%s}", charge, runtime, bool_string_line, bool_string_battery_low, bool_string_charging, bool_string_discharging);
+	printf("{\"charge\":%d,\"runtime\":%d,\"line\":%s,\"battery_low\":%s,\"charging\":%s,\"discharging\":%s}", charge, runtime, bool_string(line), bool_string(battery_low), bool_string(charging), bool_string(discharging));
 }
 
 /*
@@ -510,7 +497,7 @@ void usbreset(){
 	HELPER: Print version and exit
 */
 void print_version(){
-	printf("phoenix-upshid v1.0.0 | (c) DrMaxNix 2022 | www.drmaxnix.de/phoenix-upshid\n");
+	printf("phoenix-upshid v1.0.1 | (c) DrMaxNix 2022 | www.drmaxnix.de/phoenix-upshid\n");
 	exit(0);
 }
 

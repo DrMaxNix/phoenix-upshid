@@ -108,7 +108,7 @@ int main(int argc, char **argv){
 	}
 	
 	// parse
-	for(size_t q = optind; q < argc; q++){
+	for(int q = optind; q < argc; q++){
 		if(q == optind){
 			// make sure string has a collon in it
 			char *arg_id = argv[q];

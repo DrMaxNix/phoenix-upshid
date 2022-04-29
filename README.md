@@ -1,5 +1,5 @@
 # phoenix-upshid
-[![GitHub release](https://img.shields.io/badge/release-v1.0.1-orange)](https://github.com/DrMaxNix/phoenix-upshid/releases/tag/1.0.1)
+[![GitHub release](https://img.shields.io/badge/release-v1.0.2-orange)](https://github.com/DrMaxNix/phoenix-upshid/releases/tag/v1.0.2)
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/DrMaxNix/phoenix-upshid/blob/main/LICENSE)
 [![Maintaner](https://img.shields.io/badge/maintainer-DrMaxNix-blue)](https://www.drmaxnix.de)
 

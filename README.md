@@ -21,9 +21,9 @@ At the end I [reverse-engineered](https://github.com/DrMaxNix/phoenix-upshid/blo
 ## How to use
 Download and extract source and compile:
 ```console
-$ wget https://github.com/DrMaxNix/phoenix-upshid/archive/refs/tags/v1.0.1.tar.gz
-$ tar xf v1.0.1.tar.gz
-$ cd phoenix-upshid-1.0.1
+$ wget https://github.com/DrMaxNix/phoenix-upshid/archive/refs/tags/v1.0.2.tar.gz
+$ tar xf v1.0.2.tar.gz
+$ cd phoenix-upshid-1.0.2
 $ gcc -o phoenix-upshid phoenix-upshid.c
 ```
 

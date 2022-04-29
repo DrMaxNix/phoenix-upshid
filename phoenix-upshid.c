@@ -497,7 +497,7 @@ void usbreset(){
 	HELPER: Print version and exit
 */
 void print_version(){
-	printf("phoenix-upshid v1.0.2-a | (c) DrMaxNix 2022 | www.drmaxnix.de/phoenix-upshid\n");
+	printf("phoenix-upshid v1.0.2 | (c) DrMaxNix 2022 | www.drmaxnix.de/phoenix-upshid\n");
 	exit(0);
 }
 

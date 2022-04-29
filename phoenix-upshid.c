@@ -396,7 +396,7 @@ void output_data(){
 	// charge and remaining time
 	int values_res;
 	char values_buffer[64];
-	for(size_t q = 0; q <= 1; q++){
+	for(int q = 0; q <= 1; q++){
 		values_buffer[0] = 0x06;
 		values_res = ioctl(hid, HIDIOCGFEATURE(256), values_buffer);
 		if(values_res >= 4){
@@ -421,7 +421,7 @@ void output_data(){
 	// flaggs (charging, discharging, line power, low battery)
 	int flaggs_res;
 	char flaggs_buffer[64];
-	for(size_t q = 0; q <= 1; q++){
+	for(int q = 0; q <= 1; q++){
 		flaggs_buffer[0] = 0x01;
 		flaggs_res = ioctl(hid, HIDIOCGFEATURE(256), flaggs_buffer);
 		if(flaggs_res >= 5){
